@@ -32,13 +32,32 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Início</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id = "navbarDropdown" asp-area="" asp-controller="Cliente" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Cliente
+                            <a class="nav-link dropdown-toggle text-dark" id="navbarCliente" asp-area="" asp-controller="Cliente" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Clientes
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" asp-action="">Cadastrar Novo Cliente</a>
-                                <a class="dropdown-item" asp-action="">Listar Clientes</a>
-                                <a class="dropdown-item" asp-action="">Listar Clientes Inadiplentes</a>
+                            <div class="dropdown-menu " aria-labelledby="navbarCliente">
+                                <a class="dropdown-item text-dark" asp-action="">Cadastrar Novo Cliente</a>
+                                <a class="dropdown-item text-dark" asp-action="">Listar Clientes</a>
+                                <a class="dropdown-item text-dark" asp-action="">Listar Clientes Inadiplentes</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" id="navbarFilme" asp-area="" asp-controller="Filme" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Filmes
+                            </a>
+                            <div class="dropdown-menu " aria-labelledby="navbarFilme">
+                                <a class="dropdown-item text-dark" asp-action="">Cadastrar Novo Filme</a>
+                                <a class="dropdown-item text-dark" asp-action="">Listar Filmes</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" id="navbarAluguel" asp-area="" asp-controller="Aluguel" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Aluguel
+                            </a>
+                            <div class="dropdown-menu " aria-labelledby="navbarAluguel">
+                                <a class="dropdown-item text-dark" asp-action="">Realizar novo aluguel</a>
+                                
                             </div>
                         </li>
                     </ul>

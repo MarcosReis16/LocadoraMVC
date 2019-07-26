@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using LocadoraApp.Models;
+using Locadora.Models;
 
-namespace LocadoraApp.Controllers
+namespace Locadora.Controllers
 {
     public class HomeController : Controller
     {
@@ -18,12 +18,6 @@ namespace LocadoraApp.Controllers
         public IActionResult Privacy()
         {
             return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
