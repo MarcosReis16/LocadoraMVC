@@ -7,9 +7,8 @@ using System.Linq;
 
 namespace Locadora.Controllers
 {
-    [Route("api/aluguel")]
-    [ApiController]
-    public class AluguelController : ControllerBase
+    
+    public class AluguelController : Controller
     {
         private readonly IAluguelRepository _repositoryAluguel;
         private readonly IFilmeRepository _repositoryFilme;
@@ -23,12 +22,22 @@ namespace Locadora.Controllers
 
         // GET: api/Aluguel
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult BuscarAluguel()
         {
-            var alugueis = _repositoryAluguel.ObterAlugueis();
-            if (alugueis.Any())
-                return Ok(alugueis);
-            return NotFound();
+            try
+            {
+                var alugueis = _repositoryAluguel.ObterAlugueis();
+
+                if (alugueis.Any())
+                    return View(alugueis);
+
+                return NotFound();
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
         // GET: api/Aluguel/5
@@ -43,13 +52,12 @@ namespace Locadora.Controllers
             return NotFound(idCliente);
         }
 
-        // POST: api/Aluguel
         [HttpPost]
-        public IActionResult Post(Guid idCliente, [FromBody] IEnumerable<Filme> filmes)
+        [ValidateAntiForgeryToken]
+        public IActionResult RealizaAluguel(Guid id, [Bind("IdAluguel, IdCliente, Filmes")] Aluguel aluguel, List<Filme> filmes)
         {
             try
             {
-                Aluguel aluguel = new Aluguel(idCliente);
                 aluguel.RealizarEmprestimo(filmes);
                 aluguel = _repositoryAluguel.CriarAluguel(aluguel);
                 filmes = aluguel.AluguelFilmes.Select(m => m.Filme).ToList();
@@ -57,7 +65,19 @@ namespace Locadora.Controllers
                 {
                     _repositoryFilme.EditarFilme(filme);
                 }
-                return Ok(aluguel);
+                return View(aluguel);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public IActionResult RealizaAluguel()
+        {
+            try
+            {
+                return View();
             }
             catch (Exception e)
             {

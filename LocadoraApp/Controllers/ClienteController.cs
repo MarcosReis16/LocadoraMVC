@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Locadora.Auxiliares;
 using Locadora.Models;
 using Locadora.Repository;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace Locadora.Controllers
 {
-    [Route("api/cliente")]
-    [ApiController]
-    public class ClienteController : ControllerBase
+
+    public class ClienteController : Controller
     {
         private readonly IClienteRepository _repository;
 
@@ -21,14 +21,14 @@ namespace Locadora.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult BuscarCliente()
         {
             try
             {
                 var resultado = _repository.RetornaBibliotecaClientes();
 
                 if (resultado.Any())
-                    return Ok(resultado);
+                    return View(resultado);
 
                 return NotFound();
 
@@ -39,33 +39,88 @@ namespace Locadora.Controllers
             }
         }
 
-        [HttpGet("{nome}", Name = "GetClienteNome")]
-        public IActionResult Get(string nome)
+        public IActionResult CriaCliente()
         {
             try
             {
-                var resultado = _repository.RetornaClientePorNome(nome);
-
-                if (resultado.Any())
-                    return Ok(resultado);
-
-                return NotFound();
-
+                return View();
             }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
-
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Cliente cliente)
+        [ValidateAntiForgeryToken]
+        public IActionResult CriaCliente(Guid id, [Bind("IdCliente, NomeCliente, CPFCliente, CEP, Endereco, Bairro, Cidade, Estado")] Cliente cliente)
+        {
+            if (id != cliente.IdCliente)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _repository.CadastraCliente(cliente);
+                }
+                catch (Exception e)
+                {
+                    if (cliente == null)
+                    {
+                        return RedirectToAction("BuscarCliente");
+                    }
+                    else
+                    {
+                        throw new Exception(e.Message);
+                    }
+                }
+                return RedirectToAction("BuscarCliente");
+            }
+            return View(cliente);
+        }
+
+        public IActionResult EditaCliente(Guid id)
         {
             try
             {
-                _repository.CadastraCliente(cliente);
-                return Ok(cliente);
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var cliente = _repository.RetornaClientePorId(id);
+                if (cliente == null)
+                {
+                    return NotFound();
+                }
+                return View(cliente);
+
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public IActionResult DetalheCliente(Guid id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var cliente = _repository.RetornaClientePorId(id);
+                if (cliente == null)
+                {
+                    return NotFound();
+                }
+                return View(cliente);
+
             }
             catch (Exception e)
             {
@@ -73,14 +128,51 @@ namespace Locadora.Controllers
             }
         }
 
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditaCliente(Guid id, [Bind("IdCliente, NomeCliente, CPFCliente, CEP, Endereco, Bairro, Cidade, Estado")] Cliente cliente)
+        {
+            if (id != cliente.IdCliente)
+            {
+                return NotFound();
+            }
 
-        [HttpPut("{id}")]
-        public IActionResult Put(Cliente cliente)
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _repository.EditaCliente(cliente);
+                }
+                catch (Exception e)
+                {
+                    if (cliente == null)
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw new Exception(e.Message);
+                    }
+                }
+                return RedirectToAction("BuscarCliente");
+            }
+            return View(cliente);
+        }
+
+
+
+        
+        public IActionResult ApagaCliente(Guid id)
         {
             try
             {
-                _repository.EditaCliente(cliente);
-                return Ok(cliente);
+                var cliente = _repository.RetornaClientePorId(id);
+
+                if (cliente != null)
+                    return View(cliente);
+
+                return NotFound();
             }
             catch (Exception e)
             {
@@ -88,18 +180,23 @@ namespace Locadora.Controllers
             }
         }
 
-
-        [HttpDelete("{codigo}")]
-        public IActionResult Delete(Guid idCliente)
+        [HttpPost, ActionName("ApagaCliente")]
+        [ValidateAntiForgeryToken]
+        public IActionResult ApagaConfirmarCliente(Guid id)
         {
+            _repository.RemoveCliente(id);
+            return RedirectToAction(nameof(BuscarCliente));
+        }
+
+        public JsonResult BuscaCEP(string cep)
+        {
+            var url = $"http://viacep.com.br/ws/{cep}/json/";
+            WebClient client = new WebClient();
+
             try
             {
-                var apagou = _repository.RemoveCliente(idCliente);
-
-                if (apagou)
-                    return Ok();
-
-                return NotFound(idCliente);
+                var endereco = JsonConvert.DeserializeObject<Endereco>(client.DownloadString(url));
+                return Json(endereco);
             }
             catch (Exception e)
             {

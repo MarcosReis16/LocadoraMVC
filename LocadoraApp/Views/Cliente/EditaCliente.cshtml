@@ -1,0 +1,94 @@
+﻿@model Locadora.Models.Cliente
+
+@{
+    ViewData["Title"] = "EditaCliente";
+}
+
+<h1>Editar</h1>
+
+<h4>Cliente</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Editar">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdCliente" />
+            <div class="form-group">
+                <label asp-for="NomeCliente" class="control-label"></label>
+                <input asp-for="NomeCliente" class="form-control" />
+                <span asp-validation-for="NomeCliente" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CPFCliente" class="control-label"></label>
+                <input asp-for="CPFCliente" class="form-control" />
+                <span asp-validation-for="CPFCliente" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CEP" class="control-label"></label>
+                <input asp-for="CEP" class="form-control" />
+                <span asp-validation-for="CEP" class="text-danger"></span>
+                <input type="button" onclick="buscarCEP()" value="Buscar" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Endereco" class="control-label"></label>
+                <input asp-for="Endereco" class="form-control" readonly />
+                <span asp-validation-for="Endereco" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Bairro" class="control-label"></label>
+                <input asp-for="Bairro" class="form-control" readonly />
+                <span asp-validation-for="Bairro" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Cidade" class="control-label"></label>
+                <input asp-for="Cidade" class="form-control" readonly />
+                <span asp-validation-for="Cidade" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Estado" class="control-label"></label>
+                <input asp-for="Estado" class="form-control" readonly />
+                <span asp-validation-for="Estado" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="BuscarCliente">Voltar</a>
+</div>
+<script type="text/javascript">
+    function buscarCEP() {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("BuscaCEP", "Cliente")',
+            dataType: 'json',
+            data: { Cep: $("#CEP").val() },
+            success: function (endereco) {
+                $("#Endereco").val(endereco.logradouro);
+                $("#Bairro").val(endereco.bairro);
+                $("#Cidade").val(endereco.localidade);
+                $("#Estado").val(endereco.uf);
+            },
+            error: function (ex) {
+                alert('ERRO');
+                console.log(ex);
+            }
+        });
+    }
+</script>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} 
+}
+

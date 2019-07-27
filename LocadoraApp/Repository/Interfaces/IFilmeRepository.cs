@@ -12,9 +12,9 @@ namespace Locadora.Repository
         IEnumerable<Filme> RetornarBibliotecaFilmes();
         IEnumerable<Filme> RetornarFilmesSemEstoque();
         void EditarFilme(Filme filme);
-        bool RemoverFilme(int codigo);
+        bool RemoverFilme(Guid id);
 
-        Filme BuscarFilmePorCodigo(int codigo);
+        Filme BuscarFilmePorId(Guid id);
 
 
 

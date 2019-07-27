@@ -1,0 +1,56 @@
+﻿@model Locadora.Models.Filme
+
+@{
+    ViewData["Title"] = "CriaFilme";
+}
+
+<h4>Criar Filme</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CriaFilme">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CodigoFilme" class="control-label"></label>
+                <input asp-for="CodigoFilme" class="form-control" />
+                <span asp-validation-for="CodigoFilme" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NomeFilme" class="control-label"></label>
+                <input asp-for="NomeFilme" class="form-control" />
+                <span asp-validation-for="NomeFilme" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GeneroFilme" class="control-label"></label>
+                <select asp-for="GeneroFilme" class="form-control"></select>
+                <span asp-validation-for="GeneroFilme" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FaixaEtariaFilme" class="control-label"></label>
+                <select asp-for="FaixaEtariaFilme" class="form-control"></select>
+                <span asp-validation-for="FaixaEtariaFilme" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ValorEmprestimo" class="control-label"></label>
+                <input asp-for="ValorEmprestimo" class="form-control" />
+                <span asp-validation-for="ValorEmprestimo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="QtdEstoque" class="control-label"></label>
+                <input asp-for="QtdEstoque" class="form-control" />
+                <span asp-validation-for="QtdEstoque" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Criar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="BuscarFilme">Retornar</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -10,8 +10,21 @@ namespace Locadora.Models
     {
         [Key]
         public Guid IdCliente { get; set; }
+
+        [Display(Name = "Nome")]
         public string NomeCliente { get; set; }
+
+        [Display(Name = "CPF")]
         public string CPFCliente { get; set; }
+
+        public string CEP { get; set; }
+
+        public string Endereco { get; set; }
+
+        public string Bairro { get; set; }
+
+        public string Cidade { get; set; }
+        public string Estado { get; set; }
 
         public List<Aluguel> Alugueis { get; set; }
 

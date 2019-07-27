@@ -69,6 +69,25 @@ namespace Locadora.Contexto
                 .HasColumnType("varchar")
                 .IsRequired();
 
+            modelBuilder.Entity<Cliente>().Property(m => m.CEP)
+                .HasColumnName("CEP")
+                .HasColumnType("varchar");
+
+            modelBuilder.Entity<Cliente>().Property(m => m.Endereco)
+                .HasColumnName("Endereco")
+                .HasColumnType("varchar");
+
+            modelBuilder.Entity<Cliente>().Property(m => m.Bairro)
+                .HasColumnName("Bairro")
+                .HasColumnType("varchar");
+
+            modelBuilder.Entity<Cliente>().Property(m => m.Cidade)
+                .HasColumnName("Cidade")
+                .HasColumnType("varchar");
+
+            modelBuilder.Entity<Cliente>().Property(m => m.Estado)
+                .HasColumnName("Estado")
+                .HasColumnType("varchar");
             //------------------------------------------------------------------------------------------------
 
             modelBuilder.Entity<Aluguel>()
@@ -81,7 +100,8 @@ namespace Locadora.Contexto
             modelBuilder.Entity<Aluguel>()
                 .HasOne(m => m.Cliente)
                 .WithMany(m => m.Alugueis)
-                .HasForeignKey(m => m.IdCliente);
+                .HasForeignKey(m => m.IdCliente)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Aluguel>().Property(m => m.ValorTotal)
                 .HasColumnName("ValorTotal")
@@ -114,12 +134,14 @@ namespace Locadora.Contexto
             modelBuilder.Entity<AluguelFilme>()
                 .HasOne(m => m.Aluguel)
                 .WithMany(m => m.AluguelFilmes)
-                .HasForeignKey(m => m.IdAluguel);
+                .HasForeignKey(m => m.IdAluguel)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<AluguelFilme>()
                 .HasOne(m => m.Filme)
                 .WithMany(m => m.AluguelFilmes)
-                .HasForeignKey(m => m.IdFilme);
+                .HasForeignKey(m => m.IdFilme)
+                .OnDelete(DeleteBehavior.Cascade);
 
 
         }

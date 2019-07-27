@@ -14,10 +14,5 @@ namespace Locadora.Controllers
         {
             return View();
         }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
     }
 }

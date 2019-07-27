@@ -14,6 +14,6 @@ namespace Locadora.Repository
         IEnumerable<Cliente> RetornaBibliotecaClientes();
         IEnumerable<Cliente> RetornaClientesInadimplentes();
 
-        IEnumerable<Cliente> RetornaClientePorNome(string nome);
+        Cliente RetornaClientePorId(Guid id);
     }
 }

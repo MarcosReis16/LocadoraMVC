@@ -85,16 +85,16 @@ namespace Locadora.Repository
             return _context.Clientes.OrderBy(m => m.NomeCliente).ToList();
         }
 
-        public IEnumerable<Cliente> RetornaClientePorNome(string nome)
-        {
-            return _context.Clientes.Where(m => m.NomeCliente.Contains(nome)).ToList();
-        }
-
         public IEnumerable<Cliente> RetornaClientesInadimplentes()
         {
             return _context.Alugueis
                 .Where(m => m.StatusEmprestimo == true && m.DataDevolucao < DateTime.Today)
                 .Select(m => m.Cliente).ToList();
+        }
+
+        public Cliente RetornaClientePorId(Guid id)
+        {
+            return _context.Clientes.Where(m => m.IdCliente == id).FirstOrDefault();
         }
 
 

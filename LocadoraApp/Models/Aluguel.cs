@@ -13,15 +13,15 @@ namespace Locadora.Models
         [Key]
         public Guid IdAluguel { get; set; }
 
-        public Guid IdCliente { get; set; }
+        public Guid? IdCliente { get; set; }
 
-        public decimal ValorTotal { get; set; }
+        public decimal? ValorTotal { get; set; }
 
         public DateTime DataEmprestimo { get; set; }
 
         public DateTime DataDevolucao { get; set; }
 
-        public bool StatusEmprestimo { get; set; }
+        public bool? StatusEmprestimo { get; set; }
 
         public Cliente Cliente { get; set; }
 

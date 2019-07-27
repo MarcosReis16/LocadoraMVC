@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Locadora.Models.Aluguel>
+
+@{
+    ViewData["Title"] = "BuscarAluguel";
+}
+
+<h1>Alugueis</h1>
+
+<p>
+    <a asp-action="RealizaAluguel">Alugar</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ValorTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataEmprestimo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataDevolucao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusEmprestimo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cliente)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ValorTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataEmprestimo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataDevolucao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatusEmprestimo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cliente.CPFCliente)
+            </td>
+            <td>
+                <a asp-action="RenovaAluguel" asp-route-id="@item.IdAluguel">Renovar</a>
+                <a asp-action="DevolveAluguel" asp-route-id="@item.IdAluguel">Devolver</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

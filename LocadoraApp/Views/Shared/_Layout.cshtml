@@ -19,46 +19,29 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">LocadoraApp</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Início</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Início</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-dark" id="navbarCliente" asp-area="" asp-controller="Cliente" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Cliente" asp-action="BuscarCliente" >
                                 Clientes
                             </a>
-                            <div class="dropdown-menu " aria-labelledby="navbarCliente">
-                                <a class="dropdown-item text-dark" asp-action="">Cadastrar Novo Cliente</a>
-                                <a class="dropdown-item text-dark" asp-action="">Listar Clientes</a>
-                                <a class="dropdown-item text-dark" asp-action="">Listar Clientes Inadiplentes</a>
-                            </div>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-dark" id="navbarFilme" asp-area="" asp-controller="Filme" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Filme" asp-action="BuscarFilme">
                                 Filmes
                             </a>
-                            <div class="dropdown-menu " aria-labelledby="navbarFilme">
-                                <a class="dropdown-item text-dark" asp-action="">Cadastrar Novo Filme</a>
-                                <a class="dropdown-item text-dark" asp-action="">Listar Filmes</a>
-                            </div>
                         </li>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-dark" id="navbarAluguel" asp-area="" asp-controller="Aluguel" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Aluguel
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Aluguel" asp-action="BuscarAluguel">
+                                Alugueis
                             </a>
-                            <div class="dropdown-menu " aria-labelledby="navbarAluguel">
-                                <a class="dropdown-item text-dark" asp-action="">Realizar novo aluguel</a>
-                                
-                            </div>
                         </li>
                     </ul>
                 </div>
@@ -66,7 +49,6 @@
         </nav>
     </header>
     <div class="container">
-        <partial name="_CookieConsentPartial" />
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -74,7 +56,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2019 - LocadoraApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2019 - LocadoraApp
         </div>
     </footer>
 

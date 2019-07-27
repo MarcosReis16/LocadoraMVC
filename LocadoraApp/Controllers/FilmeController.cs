@@ -6,28 +6,26 @@ using System.Linq;
 
 namespace Locadora.Controllers
 {
-    [Route("api/filme")]
-    [ApiController]
-    public class FilmesController : ControllerBase
+    
+    public class FilmeController : Controller
     {
 
         private readonly IFilmeRepository _repository;
 
-        public FilmesController(IFilmeRepository repository)
+        public FilmeController(IFilmeRepository repository)
         {
             _repository = repository;
         }
 
-        // GET: api/Filmes
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult BuscarFilme()
         {
             try
             {
                 var resultado = _repository.RetornarBibliotecaFilmes();
 
                 if (resultado.Any())
-                    return Ok(resultado);
+                    return View(resultado);
 
                 return NotFound();
 
@@ -38,35 +36,65 @@ namespace Locadora.Controllers
             }
         }
 
-        // GET: api/Filmes/5
-        [HttpGet("{codigo}", Name = "GetFilmesCodigo")]
-        public IActionResult Get(int codigo)
+        public IActionResult CriaFilme()
         {
             try
             {
-                var resultado = _repository.BuscarFilmePorCodigo(codigo);
-
-                if (resultado != null)
-                    return Ok(resultado);
-
-                return NotFound(codigo);
-
+                return View();
             }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
-
         }
 
-        // POST: api/Filmes
         [HttpPost]
-        public IActionResult Post([FromBody] Filme filme)
+        [ValidateAntiForgeryToken]
+        public IActionResult CriaFilme(Guid id, [Bind("IdFilme, CodigoFilme, NomeFilme, GeneroFilme, FaixaEtariaFilme, ValorEmprestimo, QtdEstoque")] Filme filme)
+        {
+            if (id != filme.IdFilme)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _repository.CadastrarFilme(filme);
+                }
+                catch (Exception e)
+                {
+                    if (filme == null)
+                    {
+                        return RedirectToAction("BuscarFilme");
+                    }
+                    else
+                    {
+                        throw new Exception(e.Message);
+                    }
+                }
+                return RedirectToAction("BuscarFilme");
+            }
+            return View(filme);
+        }
+
+        public IActionResult EditaFilme(Guid id)
         {
             try
             {
-                _repository.CadastrarFilme(filme);
-                return Ok(filme);
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var filme = _repository.BuscarFilmePorId(id);
+                if (filme == null)
+                {
+                    return NotFound();
+                }
+                return View(filme);
+
             }
             catch (Exception e)
             {
@@ -74,14 +102,53 @@ namespace Locadora.Controllers
             }
         }
 
-        // PUT: api/Filmes/5
-        [HttpPut("{id}")]
-        public IActionResult Put(Filme filme)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditaFilme(Guid id, [Bind("IdFilme, CodigoFilme, NomeFilme, GeneroFilme, FaixaEtariaFilme, ValorEmprestimo, QtdEstoque")] Filme filme)
+        {
+            if (id != filme.IdFilme)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _repository.EditarFilme(filme);
+                }
+                catch (Exception e)
+                {
+                    if (filme == null)
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw new Exception(e.Message);
+                    }
+                }
+                return RedirectToAction("BuscarFilme");
+            }
+            return View(filme);
+        }
+
+        public IActionResult DetalheFilme(Guid id)
         {
             try
             {
-                _repository.EditarFilme(filme);
-                return Ok(filme);
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var filme = _repository.BuscarFilmePorId(id);
+                if (filme == null)
+                {
+                    return NotFound();
+                }
+                return View(filme);
+
             }
             catch (Exception e)
             {
@@ -89,26 +156,29 @@ namespace Locadora.Controllers
             }
         }
 
-
-
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{codigo}")]
-        public IActionResult Delete(int codigo)
+        public IActionResult ApagaFilme(Guid id)
         {
             try
             {
-                var apagou = _repository.RemoverFilme(codigo);
+                var filme = _repository.BuscarFilmePorId(id);
 
-                if (apagou)
-                    return Ok();
+                if (filme != null)
+                    return View(filme);
 
-                return NotFound(codigo);
+                return NotFound();
             }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
+        }
+
+        [HttpPost, ActionName("ApagaCliente")]
+        [ValidateAntiForgeryToken]
+        public IActionResult ApagaConfirmarFilme(Guid id)
+        {
+            _repository.RemoverFilme(id);
+            return RedirectToAction(nameof(BuscarFilme));
         }
     }
 }

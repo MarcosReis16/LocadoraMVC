@@ -1,0 +1,52 @@
+﻿@model Locadora.Models.Filme
+
+@{
+    ViewData["Title"] = "DetalheFilme";
+}
+
+<div>
+    <h4>Detalhes</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CodigoFilme)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CodigoFilme)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NomeFilme)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NomeFilme)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.GeneroFilme)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.GeneroFilme)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FaixaEtariaFilme)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FaixaEtariaFilme)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ValorEmprestimo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ValorEmprestimo)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.QtdEstoque)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.QtdEstoque)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="EditaFilme" asp-route-id="@Model.IdFilme">Editar</a> |
+    <a asp-action="BuscarFilme">Voltar</a>
+</div>

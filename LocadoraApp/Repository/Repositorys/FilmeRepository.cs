@@ -54,20 +54,20 @@ namespace Locadora.Repository
 
         }
 
-        public Filme BuscarFilmePorCodigo(int codigo)
+        public Filme BuscarFilmePorId(Guid id)
         {
-            return _context.Filmes.FirstOrDefault(m => m.CodigoFilme == codigo);
+            return _context.Filmes.FirstOrDefault(m => m.IdFilme == id);
         }
 
 
-        public bool RemoverFilme(int codigo)
+        public bool RemoverFilme(Guid id)
         {
             using (var transacao = _context.Database.BeginTransaction())
             {
 
                 try
                 {
-                    var filme = _context.Filmes.First(m => m.CodigoFilme == codigo);
+                    var filme = _context.Filmes.First(m => m.IdFilme == id);
                     if (filme != null)
                     {
                         _context.Filmes.Remove(filme);

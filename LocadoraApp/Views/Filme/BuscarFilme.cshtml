@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Locadora.Models.Filme>
+
+@{
+    ViewData["Title"] = "BuscaFilme";
+}
+
+<h1>BuscaFilme</h1>
+
+<p>
+    <a asp-action="CriaFilme">Criar Filme</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CodigoFilme)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NomeFilme)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GeneroFilme)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FaixaEtariaFilme)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ValorEmprestimo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QtdEstoque)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoFilme)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomeFilme)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GeneroFilme)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FaixaEtariaFilme)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ValorEmprestimo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QtdEstoque)
+            </td>
+            <td>
+                <a asp-action="EditaFilme" asp-route-id="@item.IdFilme">Editar</a> |
+                <a asp-action="DetalheFilme" asp-route-id="@item.IdFilme">Detalhes</a> |
+                <a asp-action="ApagaFilme" asp-route-id="@item.IdFilme">Apagar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
